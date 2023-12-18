@@ -1,8 +1,10 @@
+import React from "react"
+import Header from "../../components/guest/Header"
 const Home = () => {
     return(
         <>
         <Header/>
-        <h1> HELLO !</h1>
+        <h1> Bienvenue sur King of coworkings</h1>
         </>
     )
 }

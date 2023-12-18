@@ -1,54 +1,69 @@
+import { useState } from "react";
+
 const LoginPage = () => {
-    const handleLogin = async (event) => {
-        event.preventDefault();
-        // la fonction handlelogin se déclenche grâce au submit lorsque le formulaire est soumis. Elle empêche ici un rafraichissement de la page. 
+  const [message, setMessage] = useState(null);
+  const handleLogin = async (event) => {
+    event.preventDefault();
 
-        // Extraction des données.
-        const username = event.target.username.value;
-        const password = event.target.password.value;
- 
-        //Préparation des données oour la requête.
-        const loginData = {
-            username,
-            password,
-        };
-        //Conversion en JSON.
-        const loginDataJson = JSON.stringify(loginData);
+    // je récupère les infos du form (username et password)
+    const username = event.target.username.value;
+    const password = event.target.password.value;
 
-        //Traitement de la Réponse
-        const loginResponse = await fetch("http://localhost:3000/api/users/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: loginDataJson,
-        });
-        const loginResponseData = await loginResponse.json();
-        
-        const token = loginResponseData.data;
-    
-       //Stockage du token dans le localStorage.
-        if (token) {
-       
-          localStorage.setItem("jwt", token);
-        }
-      };
-    // rendu du formulaire.
-      return (
-        <section>
-          <form onSubmit={handleLogin}>
-            <label>
-              username
-              <input type="text" name="username" />
-            </label>
-            <label>
-              password
-              <input type="password" name="password" />
-            </label>
-            <input type="submit" />
-          </form>
-        </section>
-      );
+    // je créé un objet avec les valeurs de username et password
+    const loginData = {
+      username,
+      password,
     };
-    
-    export default LoginPage;
+
+    // je transforme mon objet en JSON
+    const loginDataJson = JSON.stringify(loginData);
+
+    // je fais une requête vers l'API
+    // de type post
+    // avec mon objet JSON (username, password) en body
+    // vu que j'envoie du JSON, je dois préciser
+    // dans le headers que le contenu du body est du JSON
+    const loginResponse = await fetch("http://localhost:3000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: loginDataJson,
+    });
+    console.log(loginResponse);
+
+    // je transforme la réponse de l'API (JSON) vers du JS
+    const loginResponseData = await loginResponse.json();
+    // je récupère le token généré par l'API dans la réponse
+    const token = loginResponseData.data;
+
+    // si le token existe
+    if (token) {
+      // je le stocke dans le local storage du navigateur
+      localStorage.setItem("jwt", token);
+      setMessage("Vous êtes bien connecté");
+    } else {
+    setMessage("Erreur lors de la connexion");
+    }
+  };
+
+  return (
+    <section>
+      { message && <p>{message}</p>}
+      <form onSubmit={handleLogin}>
+        <label>
+          username
+          <input type="text" name="username" />
+        </label>
+        <label>
+          password
+          <input type="password" name="password" />
+        </label>
+        <input type="submit" />
+      </form>
+    </section>
+  ) 
+};
+ 
+
+export default LoginPage;

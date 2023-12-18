@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/guest/Header";
+import Header from "../../component/guest/Header";
 import { Link } from "react-router-dom";
 
-const Coworkings = () => {
+const CoworkingsPage = () => {
   const [coworkings, setCoworkings] = useState(null);
 
   useEffect(() => {
@@ -37,6 +37,6 @@ const Coworkings = () => {
       )}
     </>
   );
-}
-    
-        export default Coworkings;
+};
+
+export default CoworkingsPage;

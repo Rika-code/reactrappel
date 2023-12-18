@@ -3,22 +3,26 @@ import HeaderAdmin from "../../component/admin/HeaderAdmin";
 import { useEffect } from "react";
 
 const DashboardPage = () => {
-  // Récupération de la fonction navigate qui redigiera l'utilisateur.
+  // je récupère la fonction navigate du react-router
+  // qui permet de rediriger un utilisateur
   const navigate = useNavigate();
 
+  // au chargement du composant
   useEffect(() => {
-    // Récupération du token en localStorage du navigateur.
+    // je récupère le token en local storage
     const token = localStorage.getItem("jwt");
 
-    // Si le token existe, redirection de l'utilisateur vers le formulaire de login
+    // si le token n'existe pas => je redirige l'utilisateur vers le login
     if (!token) {
       navigate("/login");
     }
-//Pour préciser, on verifie si le token est valide
-// On le décode (jwt-decode) et on vérifie si les données sont correctes et on redirige l'utlisateur.
-    
+
+    // idéalement, si y'a un token existant,
+    // on le décode (avec jwt-decode) et on regarde si les données sont correctes
+    // si elles ne sont pas correctes (pas de clé data etc)
+    // on redirige
   });
-//rendu du succès de connexion.
+
   return (
     <>
       <HeaderAdmin />
